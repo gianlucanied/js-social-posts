@@ -62,7 +62,6 @@ Milestone 1 - Prendendo come riferimento il layout di esempio presente nell’ht
 
 const container = document.getElementById('container');
 
-
 posts.forEach(element => {
     const {id, content, media, author, likes, created} = element;
 
@@ -109,9 +108,59 @@ posts.forEach(element => {
   </div>
     `;
 
-
     container.innerHTML += mioPost;
 
 })
 
+
+// Milestone 2 - Se clicchiamo sul tasto “Mi Piace” cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo. Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
+
+// Creo un array dove salvo i post che mi piacciono
+const likedPosts = [];
+
+// Creo la variabile per il bottone
+const addLike = document.querySelectorAll(".post");
+
+addLike.forEach(post => {
+
+  const button = post.querySelector(".like-button");
+
+  // Attivo la funzione del click al button
+  button.addEventListener("click",
+
+  function (event){
+
+    // Funzione per non far tornare la pagina all'inizio quando premo like
+    event.preventDefault();
+
+    const postId = button.getAttribute("data-postid");
+
+    // Se il post a cui metto like non è nell'array
+    if(!likedPosts.includes(postId)){
+
+      // Allora lo pusho nell'array
+      likedPosts.push(postId);
+      console.log(likedPosts);
+
+      // Se invece è gia presente nell'array
+      if(likedPosts.includes(postId)){
+
+        // Aggiungo la classe per i post con i like
+        const noLikeText = post.querySelector(".like-button__label");
+        const noLikeIcon = post.querySelector(".like-button__icon");
+        noLikeText.classList.add("like-button--like");
+        noLikeIcon.classList.add("like-button--liked");
+
+        // Creo una costante per il contatore dei likes
+        let likesCounter = post.querySelector(".js-likes-counter");
+
+        //Funzione per incrementare il contatore dei likes
+        likesCounter.textContent = parseInt(likesCounter.textContent) + 1;
+  
+      };
+    }
+  }
+  )})
+
+  
 
